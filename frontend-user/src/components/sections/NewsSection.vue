@@ -189,6 +189,11 @@ const upcomingEvents = [
   &__card {
     display: flex;
     flex-direction: column;
+    cursor: pointer;
+    
+    &:active {
+      transform: translateY(-2px) scale(0.98);
+    }
   }
 
   &__card-image {
@@ -339,10 +344,16 @@ const upcomingEvents = [
     gap: $spacing-4;
     padding: $spacing-4;
     border-radius: $radius-lg;
-    transition: background $transition-fast;
+    cursor: pointer;
+    transition: all $transition-fast;
 
     &:hover {
       background: $color-bg-secondary;
+    }
+    
+    &:active {
+      transform: scale(0.99);
+      background: darken($color-bg-secondary, 3%);
     }
 
     &:not(:last-child) {

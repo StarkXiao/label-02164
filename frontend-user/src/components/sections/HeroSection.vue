@@ -418,10 +418,18 @@ onMounted(() => {
     align-items: center;
     gap: $spacing-2;
     color: rgba(255, 255, 255, 0.6);
+    padding: $spacing-3;
+    border-radius: $radius-lg;
     transition: all $transition-fast;
 
     &:hover {
       color: white;
+      background: rgba(255, 255, 255, 0.1);
+    }
+    
+    &:active {
+      transform: scale(0.95);
+      background: rgba(255, 255, 255, 0.15);
     }
   }
 

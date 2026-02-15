@@ -319,11 +319,17 @@ const popularRoutes = [
     background: white;
     border-radius: $radius-lg;
     box-shadow: $shadow-sm;
+    cursor: pointer;
     transition: all $transition-normal;
 
     &:hover {
       box-shadow: $shadow-md;
       transform: translateY(-4px);
+    }
+    
+    &:active {
+      transform: translateY(-2px) scale(0.98);
+      box-shadow: $shadow-sm;
     }
   }
 

@@ -74,6 +74,7 @@
       width="90%"
       :style="{ maxWidth: '500px' }"
       :close-on-click-modal="false"
+      @closed="handleDialogClosed"
     >
       <el-form :model="applyForm" :rules="rules" ref="formRef" label-position="top">
         <el-form-item label="姓名/昵称" prop="name">
@@ -154,6 +155,14 @@ const processSteps = [
   { title: '首飞认证', desc: '完成首次联飞航班，正式成为飞行员' }
 ]
 
+const handleDialogClosed = () => {
+  // 对话框关闭后清除表单校验状态和数据
+  if (formRef.value) {
+    formRef.value.resetFields()
+    formRef.value.clearValidate()
+  }
+}
+
 const submitApply = async () => {
   if (!formRef.value) return
   
@@ -164,7 +173,6 @@ const submitApply = async () => {
         submitting.value = false
         showApplyDialog.value = false
         ElMessage.success({ message: '申请已提交，我们会尽快与您联系！', duration: 3000 })
-        formRef.value.resetFields()
       }, 1500)
     }
   })

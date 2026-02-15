@@ -120,10 +120,15 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: $radius-md;
   transition: all $transition-fast;
   cursor: pointer;
+  user-select: none;
 
   &:disabled {
     opacity: 0.6;
     cursor: not-allowed;
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(0.96);
   }
 }
 
@@ -151,6 +156,11 @@ h1, h2, h3, h4, h5, h6 {
     transform: translateY(-2px);
     box-shadow: $shadow-lg;
   }
+
+  &:active:not(:disabled) {
+    transform: translateY(0) scale(0.96);
+    box-shadow: $shadow-sm;
+  }
 }
 
 .btn-outline {
@@ -161,6 +171,11 @@ h1, h2, h3, h4, h5, h6 {
   &:hover:not(:disabled) {
     background: $color-text-white;
     color: $color-primary;
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(0.96);
+    opacity: 0.9;
   }
 }
 
@@ -180,6 +195,11 @@ h1, h2, h3, h4, h5, h6 {
     transform: translateY(-4px);
     box-shadow: $shadow-xl;
   }
+  
+  &:active {
+    transform: translateY(-2px) scale(0.99);
+    box-shadow: $shadow-lg;
+  }
 }
 
 :root {
@@ -188,6 +208,150 @@ h1, h2, h3, h4, h5, h6 {
   --el-color-primary-light-5: #{$color-primary-lighter};
   --el-border-radius-base: #{$radius-md};
   --el-font-family: #{$font-family-body};
+}
+
+// 全局可点击元素交互反馈
+a,
+button,
+[role="button"],
+.clickable {
+  &:not(:disabled) {
+    cursor: pointer;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+    
+    // 默认的 active 状态反馈
+    &:active {
+      opacity: 0.8;
+    }
+  }
+}
+
+// 图标按钮交互反馈
+.el-icon {
+  &[role="button"],
+  &.clickable {
+    cursor: pointer;
+    transition: transform $transition-fast, color $transition-fast;
+    
+    &:hover {
+      color: $color-accent;
+    }
+    
+    &:active {
+      transform: scale(0.9);
+    }
+  }
+}
+
+// 列表项交互反馈
+li.clickable,
+.list-item-clickable {
+  cursor: pointer;
+  transition: background-color $transition-fast, transform $transition-fast;
+  
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+  
+  &:active {
+    transform: scale(0.98);
+    background-color: rgba(0, 0, 0, 0.08);
+  }
+}
+
+// 通用交互反馈类
+.interactive {
+  cursor: pointer;
+  transition: all $transition-fast;
+  user-select: none;
+  
+  &:hover {
+    opacity: 0.9;
+  }
+  
+  &:active {
+    transform: scale(0.97);
+    opacity: 0.8;
+  }
+}
+
+// Element Plus 按钮交互反馈
+.el-button {
+  transition: all $transition-fast !important;
+  
+  &:not(.is-disabled):not(.is-loading) {
+    &:hover {
+      transform: translateY(-1px);
+    }
+    
+    &:active {
+      transform: scale(0.96);
+    }
+  }
+}
+
+// Element Plus 输入框交互反馈
+.el-input,
+.el-select,
+.el-textarea {
+  transition: all $transition-fast !important;
+  
+  &:focus-within {
+    transform: translateY(-1px);
+  }
+}
+
+// Element Plus 对话框按钮增强
+.el-dialog__footer {
+  .el-button {
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: $shadow-sm;
+    }
+    
+    &:active {
+      transform: scale(0.96);
+      box-shadow: none;
+    }
+  }
+}
+
+// Element Plus 下拉选项交互
+.el-select-dropdown__item {
+  transition: all $transition-fast !important;
+  
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+// 链接交互反馈
+a:not(.btn):not(.el-button) {
+  transition: color $transition-fast, opacity $transition-fast, transform $transition-fast;
+  
+  &:hover {
+    opacity: 0.85;
+  }
+  
+  &:active {
+    opacity: 0.7;
+    transform: scale(0.98);
+  }
+}
+
+// 卡片交互反馈
+.card {
+  cursor: default;
+  
+  &.clickable,
+  &[onclick],
+  &[role="button"] {
+    cursor: pointer;
+    
+    &:active {
+      transform: translateY(-2px) scale(0.98);
+    }
+  }
 }
 
 @keyframes fadeInUp {

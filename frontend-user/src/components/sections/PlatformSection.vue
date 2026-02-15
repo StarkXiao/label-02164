@@ -49,10 +49,31 @@
                 <span class="platform__card-tech-value">{{ platform.voiceCodec }}</span>
               </div>
             </div>
+            <div class="platform__card-steps">
+              <h4 class="platform__card-steps-title">快速入门</h4>
+              <ol class="platform__card-steps-list">
+                <li v-for="(step, index) in platform.steps" :key="index">{{ step }}</li>
+              </ol>
+            </div>
             <a :href="platform.url" target="_blank" class="platform__card-link">
               访问官网
               <el-icon><Right /></el-icon>
             </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="platform__requirements">
+        <h3 class="platform__requirements-title">软件环境要求</h3>
+        <div class="platform__requirements-grid">
+          <div class="platform__requirements-card" v-for="req in requirements" :key="req.title">
+            <div class="platform__requirements-icon">
+              <el-icon :size="28"><component :is="req.icon" /></el-icon>
+            </div>
+            <h4 class="platform__requirements-name">{{ req.title }}</h4>
+            <ul class="platform__requirements-list">
+              <li v-for="item in req.items" :key="item">{{ item }}</li>
+            </ul>
           </div>
         </div>
       </div>
@@ -89,6 +110,8 @@
 </template>
 
 <script setup>
+import { Monitor, Headset, Setting } from '@element-plus/icons-vue'
+
 const platforms = [
   {
     name: 'VATSIM',
@@ -105,7 +128,12 @@ const platforms = [
     url: 'https://vatsim.net',
     client: 'vPilot / xPilot',
     voiceCodec: 'AFV (Audio for VATSIM)',
-    requirements: '注册账号 + 下载客户端'
+    steps: [
+      '访问 vatsim.net 注册账号',
+      '下载 vPilot (MSFS) 或 xPilot (X-Plane)',
+      '配置模拟器插件连接',
+      '加入 SkyLink VA 开始飞行'
+    ]
   },
   {
     name: 'IVAO',
@@ -122,7 +150,12 @@ const platforms = [
     url: 'https://ivao.aero',
     client: 'Altitude',
     voiceCodec: 'TeamSpeak 集成',
-    requirements: '注册账号 + 下载 Altitude'
+    steps: [
+      '访问 ivao.aero 注册账号',
+      '下载 Altitude 客户端',
+      '完成新手培训考核',
+      '申请加入 SkyLink VA'
+    ]
   },
   {
     name: 'POSCON',
@@ -139,7 +172,42 @@ const platforms = [
     url: 'https://poscon.net',
     client: 'POSCON Pilot Client',
     voiceCodec: '内置语音系统',
-    requirements: '注册账号 + 下载客户端'
+    steps: [
+      '访问 poscon.net 注册账号',
+      '下载 POSCON Pilot Client',
+      '安装模拟器插件',
+      '联系我们获取入门指导'
+    ]
+  }
+]
+
+const requirements = [
+  {
+    title: '模拟器',
+    icon: Monitor,
+    items: [
+      'Microsoft Flight Simulator 2020/2024',
+      'X-Plane 11/12',
+      'Prepar3D v4/v5'
+    ]
+  },
+  {
+    title: '硬件配置',
+    icon: Setting,
+    items: [
+      'CPU: Intel i5 / AMD Ryzen 5 以上',
+      '内存: 16GB RAM 以上',
+      '显卡: GTX 1060 / RX 580 以上'
+    ]
+  },
+  {
+    title: '通讯设备',
+    icon: Headset,
+    items: [
+      '耳机麦克风 (联飞必备)',
+      '稳定的网络连接',
+      '推荐使用有线网络'
+    ]
   }
 ]
 
@@ -280,10 +348,121 @@ const operations = [
     font-size: $font-size-sm;
     font-weight: $font-weight-semibold;
     color: $color-primary;
-    transition: color $transition-fast;
+    padding: $spacing-2 $spacing-3;
+    margin: -#{$spacing-2} -#{$spacing-3};
+    border-radius: $radius-md;
+    transition: all $transition-fast;
 
     &:hover {
       color: $color-accent;
+      background: rgba(237, 137, 54, 0.1);
+    }
+    
+    &:active {
+      transform: scale(0.95);
+      background: rgba(237, 137, 54, 0.15);
+    }
+  }
+
+  &__card-steps {
+    margin-bottom: $spacing-4;
+    padding: $spacing-4;
+    background: linear-gradient(135deg, rgba(26, 54, 93, 0.05) 0%, rgba(37, 99, 235, 0.05) 100%);
+    border-radius: $radius-md;
+    border-left: 3px solid $color-primary;
+  }
+
+  &__card-steps-title {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    color: $color-primary;
+    margin-bottom: $spacing-3;
+  }
+
+  &__card-steps-list {
+    padding-left: $spacing-4;
+    margin: 0;
+
+    li {
+      font-size: $font-size-xs;
+      color: $color-text-secondary;
+      padding: $spacing-1 0;
+      line-height: $line-height-relaxed;
+    }
+  }
+
+  &__requirements {
+    margin-top: $spacing-12;
+    padding: $spacing-10;
+    background: white;
+    border-radius: $radius-xl;
+    box-shadow: $shadow-md;
+  }
+
+  &__requirements-title {
+    font-size: $font-size-xl;
+    font-weight: $font-weight-semibold;
+    color: $color-primary;
+    text-align: center;
+    margin-bottom: $spacing-8;
+  }
+
+  &__requirements-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-6;
+
+    @media (min-width: $breakpoint-md) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  &__requirements-card {
+    text-align: center;
+    padding: $spacing-6;
+    background: $color-bg-secondary;
+    border-radius: $radius-lg;
+    transition: transform $transition-fast, box-shadow $transition-fast;
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: $shadow-md;
+    }
+  }
+
+  &__requirements-icon {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto $spacing-4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, $color-primary 0%, $color-accent 100%);
+    border-radius: $radius-full;
+    color: white;
+  }
+
+  &__requirements-name {
+    font-size: $font-size-base;
+    font-weight: $font-weight-semibold;
+    color: $color-text-primary;
+    margin-bottom: $spacing-4;
+  }
+
+  &__requirements-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      font-size: $font-size-sm;
+      color: $color-text-secondary;
+      padding: $spacing-2 0;
+      border-bottom: 1px solid $color-border-light;
+
+      &:last-child {
+        border-bottom: none;
+      }
     }
   }
 

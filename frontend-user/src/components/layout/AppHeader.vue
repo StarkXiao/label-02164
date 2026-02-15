@@ -115,6 +115,16 @@ onUnmounted(() => {
     display: flex;
     align-items: center;
     gap: $spacing-3;
+    transition: transform $transition-fast, opacity $transition-fast;
+    
+    &:hover {
+      opacity: 0.9;
+    }
+    
+    &:active {
+      transform: scale(0.97);
+      opacity: 0.8;
+    }
   }
 
   &__logo-icon {
@@ -146,10 +156,16 @@ onUnmounted(() => {
     padding: $spacing-2 $spacing-3;
     border-radius: $radius-md;
     transition: all $transition-fast;
+    user-select: none;
 
     &:hover {
       color: white;
       background: rgba(255, 255, 255, 0.1);
+    }
+
+    &:active {
+      transform: scale(0.95);
+      background: rgba(255, 255, 255, 0.15);
     }
   }
 
@@ -162,9 +178,20 @@ onUnmounted(() => {
     flex-direction: column;
     gap: 5px;
     padding: $spacing-2;
+    border-radius: $radius-md;
+    transition: all $transition-fast;
 
     @media (max-width: 1023px) {
       display: flex;
+    }
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    &:active {
+      transform: scale(0.9);
+      background: rgba(255, 255, 255, 0.15);
     }
   }
 
@@ -197,6 +224,17 @@ onUnmounted(() => {
     font-weight: $font-weight-medium;
     color: white;
     padding: $spacing-3;
+    border-radius: $radius-md;
+    transition: all $transition-fast;
+    
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+    
+    &:active {
+      transform: scale(0.95);
+      background: rgba(255, 255, 255, 0.15);
+    }
   }
 
   &__mobile-cta {
