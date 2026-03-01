@@ -51,7 +51,7 @@
               <path d="M580 195 Q540 210 510 230" stroke="#4299e1" stroke-dasharray="4,4">
                 <animate attributeName="stroke-dashoffset" from="8" to="0" dur="1.1s" repeatCount="indefinite"/>
               </path>
-              <path d="M580 195 Q620 180 670 185" stroke="#48bb78" stroke-dasharray="5,5">
+              <path id="route-asia-1" d="M580 195 Q620 180 670 185" stroke="#48bb78" stroke-dasharray="5,5">
                 <animate attributeName="stroke-dashoffset" from="10" to="0" dur="1.5s" repeatCount="indefinite"/>
               </path>
               <path d="M580 195 Q600 175 620 175" stroke="#48bb78" stroke-dasharray="5,5">
@@ -63,10 +63,10 @@
               <path d="M580 195 Q650 300 760 380" stroke="#48bb78" stroke-dasharray="5,5">
                 <animate attributeName="stroke-dashoffset" from="10" to="0" dur="2.5s" repeatCount="indefinite"/>
               </path>
-              <path d="M580 195 Q450 120 320 150" stroke="#f56565" stroke-dasharray="6,6">
+              <path id="route-intl-1" d="M580 195 Q450 120 320 150" stroke="#f56565" stroke-dasharray="6,6">
                 <animate attributeName="stroke-dashoffset" from="12" to="0" dur="3s" repeatCount="indefinite"/>
               </path>
-              <path d="M580 195 Q400 100 200 180" stroke="#f56565" stroke-dasharray="6,6">
+              <path id="route-intl-2" d="M580 195 Q400 100 200 180" stroke="#f56565" stroke-dasharray="6,6">
                 <animate attributeName="stroke-dashoffset" from="12" to="0" dur="3.5s" repeatCount="indefinite"/>
               </path>
               <path d="M580 195 Q350 150 120 200" stroke="#f56565" stroke-dasharray="6,6">
@@ -113,14 +113,24 @@
               <text x="120" y="220" text-anchor="middle" fill="white" font-size="9">KLAX</text>
             </g>
 
-            <g fill="white" opacity="0.8">
-              <g transform="translate(450, 160) rotate(-30)">
-                <path d="M0 3 L8 0 L8 6 L0 3 Z" />
-                <animateMotion dur="8s" repeatCount="indefinite" path="M0,0 Q50,-30 100,0"/>
+            <g fill="white">
+              <g>
+                <animateMotion dur="6s" repeatCount="indefinite" rotate="auto">
+                  <mpath href="#route-intl-1"/>
+                </animateMotion>
+                <polygon points="-6,-3 6,0 -6,3" fill="white"/>
               </g>
-              <g transform="translate(300, 170) rotate(15)">
-                <path d="M0 3 L8 0 L8 6 L0 3 Z" />
-                <animateMotion dur="10s" repeatCount="indefinite" path="M0,0 Q-30,20 -60,0"/>
+              <g>
+                <animateMotion dur="8s" repeatCount="indefinite" rotate="auto">
+                  <mpath href="#route-intl-2"/>
+                </animateMotion>
+                <polygon points="-6,-3 6,0 -6,3" fill="white"/>
+              </g>
+              <g>
+                <animateMotion dur="4s" repeatCount="indefinite" rotate="auto">
+                  <mpath href="#route-asia-1"/>
+                </animateMotion>
+                <polygon points="-5,-2.5 5,0 -5,2.5" fill="white"/>
               </g>
             </g>
           </svg>
