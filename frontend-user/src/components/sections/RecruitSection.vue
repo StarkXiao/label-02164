@@ -70,46 +70,75 @@
 
     <el-dialog 
       v-model="showApplyDialog" 
-      title="飞行员申请" 
       width="90%"
-      :style="{ maxWidth: '500px' }"
+      :style="{ maxWidth: '520px' }"
       :close-on-click-modal="false"
+      :show-close="false"
+      class="apply-dialog"
       @closed="handleDialogClosed"
     >
-      <el-form :model="applyForm" :rules="rules" ref="formRef" label-position="top">
-        <el-form-item label="姓名/昵称" prop="name">
-          <el-input v-model="applyForm.name" placeholder="请输入您的姓名或昵称" />
-        </el-form-item>
-        <el-form-item label="邮箱" prop="email">
-          <el-input v-model="applyForm.email" placeholder="请输入您的邮箱" />
-        </el-form-item>
-        <el-form-item label="VATSIM CID（如有）" prop="vatsimId">
-          <el-input v-model="applyForm.vatsimId" placeholder="请输入您的 VATSIM CID" />
-        </el-form-item>
-        <el-form-item label="使用的模拟器" prop="simulator">
-          <el-select v-model="applyForm.simulator" placeholder="请选择" style="width: 100%">
-            <el-option label="Microsoft Flight Simulator 2020" value="msfs2020" />
-            <el-option label="X-Plane 12" value="xplane12" />
-            <el-option label="X-Plane 11" value="xplane11" />
-            <el-option label="Prepar3D v5" value="p3dv5" />
-            <el-option label="其他" value="other" />
-          </el-select>
-        </el-form-item>
-        <el-form-item label="飞行经验" prop="experience">
-          <el-input 
-            v-model="applyForm.experience" 
-            type="textarea" 
-            :rows="3"
-            resize="none"
-            placeholder="简单介绍您的模拟飞行经验"
-          />
-        </el-form-item>
-      </el-form>
+      <template #header>
+        <div class="apply-dialog__header">
+          <div class="apply-dialog__header-icon">
+            <svg viewBox="0 0 40 40" width="40" height="40">
+              <circle cx="20" cy="20" r="18" fill="rgba(255,255,255,0.2)"/>
+              <path d="M20 10 L30 25 L20 22 L10 25 Z" fill="white"/>
+            </svg>
+          </div>
+          <div class="apply-dialog__header-text">
+            <h3>飞行员申请</h3>
+            <p>加入 SkyLink VA，开启您的虚拟飞行生涯</p>
+          </div>
+          <button class="apply-dialog__close" @click="showApplyDialog = false">
+            <el-icon><Close /></el-icon>
+          </button>
+        </div>
+      </template>
+      <div class="apply-dialog__body">
+        <el-form :model="applyForm" :rules="rules" ref="formRef" label-position="top" class="apply-form">
+          <el-form-item label="姓名/昵称" prop="name">
+            <el-input v-model="applyForm.name" placeholder="请输入您的姓名或昵称" />
+          </el-form-item>
+          <el-form-item label="邮箱" prop="email">
+            <el-input v-model="applyForm.email" placeholder="请输入您的邮箱" />
+          </el-form-item>
+          <el-form-item label="VATSIM CID（如有）" prop="vatsimId">
+            <el-input v-model="applyForm.vatsimId" placeholder="请输入您的 VATSIM CID" />
+          </el-form-item>
+          <el-form-item label="使用的模拟器" prop="simulator">
+            <el-select v-model="applyForm.simulator" placeholder="请选择" style="width: 100%">
+              <el-option label="Microsoft Flight Simulator 2020" value="msfs2020" />
+              <el-option label="X-Plane 12" value="xplane12" />
+              <el-option label="X-Plane 11" value="xplane11" />
+              <el-option label="Prepar3D v5" value="p3dv5" />
+              <el-option label="其他" value="other" />
+            </el-select>
+          </el-form-item>
+          <el-form-item label="飞行经验" prop="experience">
+            <el-input 
+              v-model="applyForm.experience" 
+              type="textarea" 
+              :rows="3"
+              resize="none"
+              placeholder="简单介绍您的模拟飞行经验"
+            />
+          </el-form-item>
+        </el-form>
+      </div>
       <template #footer>
-        <el-button @click="showApplyDialog = false">取消</el-button>
-        <el-button type="primary" @click="submitApply" :loading="submitting">
-          提交申请
-        </el-button>
+        <div class="apply-dialog__footer">
+          <button class="apply-dialog__btn apply-dialog__btn--cancel" @click="showApplyDialog = false">
+            取消
+          </button>
+          <button 
+            class="apply-dialog__btn apply-dialog__btn--submit" 
+            @click="submitApply" 
+            :disabled="submitting"
+          >
+            <span v-if="submitting" class="apply-dialog__btn-loading"></span>
+            {{ submitting ? '提交中...' : '提交申请' }}
+          </button>
+        </div>
       </template>
     </el-dialog>
   </section>
@@ -117,6 +146,7 @@
 
 <script setup>
 import { ref, reactive } from 'vue'
+import { Close } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import 'element-plus/es/components/message/style/css'
 
@@ -387,6 +417,219 @@ const submitApply = async () => {
     margin-top: $spacing-4;
     font-size: $font-size-sm;
     color: rgba(255, 255, 255, 0.6);
+  }
+}
+
+:deep(.apply-dialog) {
+  .el-dialog {
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  }
+
+  .el-dialog__header {
+    padding: 0;
+    margin: 0;
+  }
+
+  .el-dialog__body {
+    padding: 0;
+  }
+
+  .el-dialog__footer {
+    padding: 0;
+    border-top: none;
+  }
+}
+
+.apply-dialog {
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 24px 24px 20px;
+    background: linear-gradient(135deg, #1a365d 0%, #2563eb 100%);
+    color: white;
+    position: relative;
+  }
+
+  &__header-icon {
+    flex-shrink: 0;
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+  }
+
+  &__header-text {
+    flex: 1;
+
+    h3 {
+      font-size: 20px;
+      font-weight: 600;
+      margin: 0 0 4px;
+    }
+
+    p {
+      font-size: 14px;
+      margin: 0;
+      opacity: 0.8;
+    }
+  }
+
+  &__close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    transition: background 0.2s;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .el-icon {
+      font-size: 18px;
+    }
+  }
+
+  &__body {
+    padding: 24px;
+    background: #f8fafc;
+  }
+
+  &__footer {
+    display: flex;
+    gap: 12px;
+    padding: 20px 24px;
+    background: white;
+    border-top: 1px solid #e2e8f0;
+  }
+
+  &__btn {
+    flex: 1;
+    padding: 12px 24px;
+    font-size: 15px;
+    font-weight: 500;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    &--cancel {
+      background: #f1f5f9;
+      color: #64748b;
+
+      &:hover {
+        background: #e2e8f0;
+        color: #475569;
+      }
+    }
+
+    &--submit {
+      background: linear-gradient(135deg, #1a365d 0%, #2563eb 100%);
+      color: white;
+
+      &:hover:not(:disabled) {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+      }
+
+      &:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+      }
+    }
+
+    &-loading {
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+  }
+}
+
+.apply-form {
+  :deep(.el-form-item) {
+    margin-bottom: 20px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  :deep(.el-form-item__label) {
+    font-size: 14px;
+    font-weight: 500;
+    color: #334155;
+    padding-bottom: 8px;
+  }
+
+  :deep(.el-input__wrapper),
+  :deep(.el-textarea__inner),
+  :deep(.el-select__wrapper) {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e2e8f0;
+    transition: all 0.2s;
+
+    &:hover {
+      border-color: #cbd5e1;
+    }
+
+    &.is-focus,
+    &:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+  }
+
+  :deep(.el-input__wrapper) {
+    padding: 8px 14px;
+  }
+
+  :deep(.el-textarea__inner) {
+    padding: 12px 14px;
+  }
+
+  :deep(.el-select__wrapper) {
+    padding: 4px 14px;
+  }
+
+  :deep(.el-input__inner),
+  :deep(.el-textarea__inner) {
+    font-size: 14px;
+    color: #1e293b;
+
+    &::placeholder {
+      color: #94a3b8;
+    }
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
 }
 </style>
