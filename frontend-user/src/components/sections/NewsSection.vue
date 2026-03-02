@@ -169,6 +169,8 @@ const upcomingEvents = [
 </script>
 
 <style lang="scss" scoped>
+@use "sass:color";
+
 .news {
   background: $color-bg-primary;
 
@@ -353,7 +355,7 @@ const upcomingEvents = [
     
     &:active {
       transform: scale(0.99);
-      background: darken($color-bg-secondary, 3%);
+      background: color.scale($color-bg-secondary, $lightness: -3%);
     }
 
     &:not(:last-child) {
