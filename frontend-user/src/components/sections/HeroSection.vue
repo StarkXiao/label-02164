@@ -99,13 +99,6 @@
         </div>
       </div>
     </div>
-
-    <div class="hero__scroll">
-      <a href="#about" class="hero__scroll-btn">
-        <span class="hero__scroll-text">向下滚动</span>
-        <el-icon class="hero__scroll-icon"><ArrowDown /></el-icon>
-      </a>
-    </div>
   </section>
 </template>
 
@@ -402,46 +395,6 @@ onMounted(() => {
     @media (min-width: $breakpoint-md) {
       font-size: $font-size-sm;
     }
-  }
-
-  &__scroll {
-    position: absolute;
-    bottom: $spacing-8;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 3;
-  }
-
-  &__scroll-btn {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: $spacing-2;
-    color: rgba(255, 255, 255, 0.6);
-    padding: $spacing-3;
-    border-radius: $radius-lg;
-    transition: all $transition-fast;
-
-    &:hover {
-      color: white;
-      background: rgba(255, 255, 255, 0.1);
-    }
-    
-    &:active {
-      transform: scale(0.95);
-      background: rgba(255, 255, 255, 0.15);
-    }
-  }
-
-  &__scroll-text {
-    font-size: $font-size-xs;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
-
-  &__scroll-icon {
-    font-size: 20px;
-    animation: bounce 2s infinite;
   }
 }
 
