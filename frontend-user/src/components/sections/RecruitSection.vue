@@ -149,6 +149,8 @@ import { ref, reactive } from 'vue'
 import { Close } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import 'element-plus/es/components/message/style/css'
+import logger from '@/utils/logger'
+import { validators } from '@/utils/validators'
 
 const showApplyDialog = ref(false)
 const submitting = ref(false)
@@ -162,13 +164,30 @@ const applyForm = reactive({
   experience: ''
 })
 
+const validateVatsimCid = (rule, value, callback) => {
+  if (value && !/^\d*$/.test(value)) {
+    callback(new Error('VATSIM CID 应为纯数字'))
+  } else {
+    callback()
+  }
+}
+
 const rules = {
-  name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
+  name: [
+    { required: true, message: '请输入姓名', trigger: 'blur' },
+    { min: 2, max: 20, message: '姓名长度应在2-20个字符之间', trigger: 'blur' }
+  ],
   email: [
     { required: true, message: '请输入邮箱', trigger: 'blur' },
     { type: 'email', message: '请输入正确的邮箱格式', trigger: 'blur' }
   ],
-  simulator: [{ required: true, message: '请选择模拟器', trigger: 'change' }]
+  vatsimId: [
+    { validator: validateVatsimCid, trigger: 'blur' }
+  ],
+  simulator: [{ required: true, message: '请选择模拟器', trigger: 'change' }],
+  experience: [
+    { max: 500, message: '飞行经验描述不能超过500字', trigger: 'blur' }
+  ]
 }
 
 const ranks = [
@@ -186,26 +205,41 @@ const processSteps = [
 ]
 
 const handleDialogClosed = () => {
-  // 对话框关闭后清除表单校验状态和数据
   if (formRef.value) {
     formRef.value.resetFields()
     formRef.value.clearValidate()
   }
+  logger.debug('Apply dialog closed')
 }
 
 const submitApply = async () => {
   if (!formRef.value) return
   
-  await formRef.value.validate((valid) => {
-    if (valid) {
-      submitting.value = true
-      setTimeout(() => {
-        submitting.value = false
-        showApplyDialog.value = false
-        ElMessage.success({ message: '申请已提交，我们会尽快与您联系！', duration: 3000 })
-      }, 1500)
-    }
-  })
+  try {
+    await formRef.value.validate((valid) => {
+      if (valid) {
+        submitting.value = true
+        logger.info('Submitting application', { 
+          name: applyForm.name, 
+          email: applyForm.email,
+          simulator: applyForm.simulator 
+        })
+        
+        setTimeout(() => {
+          submitting.value = false
+          showApplyDialog.value = false
+          logger.info('Application submitted successfully')
+          ElMessage.success({ message: '申请已提交，我们会尽快与您联系！', duration: 3000 })
+        }, 1500)
+      } else {
+        logger.warn('Form validation failed')
+      }
+    })
+  } catch (error) {
+    logger.error('Submit application error', error)
+    submitting.value = false
+    ElMessage.error({ message: '提交失败，请稍后重试', duration: 3000 })
+  }
 }
 </script>
 
