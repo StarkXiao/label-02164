@@ -75,6 +75,7 @@
       :close-on-click-modal="false"
       :show-close="false"
       class="apply-dialog"
+      @open="handleDialogOpen"
       @closed="handleDialogClosed"
     >
       <template #header>
@@ -203,6 +204,12 @@ const processSteps = [
   { title: '入门培训', desc: '完成新手培训课程，了解规章制度' },
   { title: '首飞认证', desc: '完成首次联飞航班，正式成为飞行员' }
 ]
+
+const handleDialogOpen = () => {
+  if (formRef.value) {
+    formRef.value.clearValidate()
+  }
+}
 
 const handleDialogClosed = () => {
   if (formRef.value) {
@@ -647,7 +654,7 @@ const submitApply = async () => {
   }
 
   :deep(.el-select__wrapper) {
-    padding: 4px 14px;
+    padding: 16px 14px;
   }
 
   :deep(.el-input__inner),
