@@ -6,6 +6,8 @@
     <FleetSection />
     <RoutesSection />
     <NewsSection />
+    <ContactSection />
+    <MessageBoard />
     <RecruitSection />
   </div>
 </template>
@@ -18,6 +20,8 @@ import FleetSection from '@/components/sections/FleetSection.vue'
 import RoutesSection from '@/components/sections/RoutesSection.vue'
 import NewsSection from '@/components/sections/NewsSection.vue'
 import RecruitSection from '@/components/sections/RecruitSection.vue'
+import ContactSection from '@/components/sections/ContactSection.vue'
+import MessageBoard from '@/components/sections/MessageBoard.vue'
 </script>
 
 <style lang="scss" scoped>
