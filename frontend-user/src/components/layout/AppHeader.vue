@@ -60,7 +60,9 @@ const navItems = [
   { label: '联飞平台', id: 'platform' },
   { label: '机队展示', id: 'fleet' },
   { label: '航线网络', id: 'routes' },
-  { label: '新闻动态', id: 'news' }
+  { label: '新闻动态', id: 'news' },
+  { label: '联系我们', id: 'contact' },
+  { label: '留言板', id: 'message-board' }
 ]
 
 const scrollTo = (id) => {
@@ -109,6 +111,8 @@ onUnmounted(() => {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    max-width: 1400px;
+    width: 100%;
   }
 
   &__logo {
@@ -142,7 +146,7 @@ onUnmounted(() => {
   &__nav--desktop {
     display: flex;
     align-items: center;
-    gap: $spacing-6;
+    gap: $spacing-4;
 
     @media (max-width: 1023px) {
       display: none;
@@ -150,10 +154,10 @@ onUnmounted(() => {
   }
 
   &__nav-link {
-    font-size: $font-size-base;
+    font-size: $font-size-sm;
     font-weight: $font-weight-medium;
     color: rgba(255, 255, 255, 0.9);
-    padding: $spacing-2 $spacing-3;
+    padding: $spacing-2 $spacing-2;
     border-radius: $radius-md;
     transition: all $transition-fast;
     user-select: none;
