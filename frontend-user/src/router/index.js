@@ -36,6 +36,12 @@ const routes = [
     name: 'Join',
     component: () => import('@/views/JoinPage.vue'),
     meta: { title: '加入我们 - SkyLink VA' }
+  },
+  {
+    path: '/messageboard',
+    name: 'MessageBoard',
+    component: () => import('@/views/MessageBoardPage.vue'),
+    meta: { title: '留言板 - SkyLink VA' }
   }
 ]
 

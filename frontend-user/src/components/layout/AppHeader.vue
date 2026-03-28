@@ -10,9 +10,9 @@
         <a 
           v-for="item in navItems" 
           :key="item.id"
-          :href="'#' + item.id"
+          :href="item.isAnchor ? '#' + item.id : `/${item.id.toLowerCase()}`"
           class="header__nav-link"
-          @click.prevent="scrollTo(item.id)"
+          @click.prevent="scrollTo(item.id, item.isAnchor)"
         >
           {{ item.label }}
         </a>
@@ -35,9 +35,9 @@
       <a 
         v-for="item in navItems" 
         :key="item.id"
-        :href="'#' + item.id"
+        :href="item.isAnchor ? '#' + item.id : `/${item.id.toLowerCase()}`"
         class="header__mobile-link"
-        @click.prevent="scrollTo(item.id)"
+        @click.prevent="scrollTo(item.id, item.isAnchor)"
       >
         {{ item.label }}
       </a>
@@ -50,24 +50,44 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const isScrolled = ref(false)
 const isMobileMenuOpen = ref(false)
 
 const navItems = [
-  { label: '首页', id: 'hero' },
-  { label: '关于我们', id: 'about' },
-  { label: '联飞平台', id: 'platform' },
-  { label: '机队展示', id: 'fleet' },
-  { label: '航线网络', id: 'routes' },
-  { label: '新闻动态', id: 'news' }
+  { label: '首页', id: 'hero', isAnchor: true },
+  { label: '关于我们', id: 'about', isAnchor: true },
+  { label: '联飞平台', id: 'platform', isAnchor: true },
+  { label: '机队展示', id: 'fleet', isAnchor: true },
+  { label: '航线网络', id: 'routes', isAnchor: true },
+  { label: '新闻动态', id: 'news', isAnchor: true },
+  { label: '留言板', id: 'MessageBoard', isAnchor: false }
 ]
 
-const scrollTo = (id) => {
+const scrollTo = (id, isAnchor = true) => {
   isMobileMenuOpen.value = false
-  const element = document.getElementById(id)
-  if (element) {
-    element.scrollIntoView({ behavior: 'smooth' })
+  if (isAnchor) {
+    // 首页锚点滚动
+    if (router.currentRoute.value.name !== 'Home') {
+      router.push('/').then(() => {
+        setTimeout(() => {
+          const element = document.getElementById(id)
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth' })
+          }
+        }, 100)
+      })
+    } else {
+      const element = document.getElementById(id)
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' })
+      }
+    }
+  } else {
+    // 路由导航
+    router.push({ name: id })
   }
 }
 
